@@ -1,0 +1,457 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "build",
+                "-v",
+                "-o",
+                "${workspaceFolderBasename}",
+                "."
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "build-linux",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "build",
+                "-v",
+                "-o",
+                "${workspaceFolderBasename}-linux",
+                "."
+            ],
+            "options": {
+                "env": {
+                    "GOOS": "linux",
+                    "GOARCH": "amd64"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "build-windows",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "build",
+                "-v",
+                "-o",
+                "${workspaceFolderBasename}.exe",
+                "."
+            ],
+            "options": {
+                "env": {
+                    "GOOS": "windows",
+                    "GOARCH": "amd64"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "build-all-platforms",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "build",
+                "build-linux",
+                "build-windows"
+            ]
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "run",
+                "."
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "run-with-race",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "run",
+                "-race",
+                "."
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-cover",
+                "-count=1",
+                "./..."
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "test-race",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-race",
+                "-count=1",
+                "./..."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "test-short",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-short",
+                "-count=1",
+                "./..."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "test-cover-profile",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-coverprofile=coverage.out",
+                "-count=1",
+                "./..."
+            ],
+            "problemMatcher": [
+                "$go"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "test-cover-html",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "tool",
+                "cover",
+                "-html=coverage.out",
+                "-o",
+                "coverage.html"
+            ],
+            "dependsOn": [
+                "test-cover-profile"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "benchmark",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-bench=.",
+                "-benchmem",
+                "-count=1",
+                "./..."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "test-package",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-cover",
+                "-count=1",
+                "."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "test-package-race",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "test",
+                "-v",
+                "-race",
+                "-count=1",
+                "."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "errcheck-package",
+            "type": "shell",
+            "command": "errcheck",
+            "args": [
+                "."
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "mod-tidy",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "mod",
+                "tidy"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "mod-download",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "mod",
+                "download"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "fmt",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "fmt",
+                "./..."
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "vet",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "vet",
+                "./..."
+            ],
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "lint",
+            "type": "shell",
+            "command": "golangci-lint",
+            "args": [
+                "run",
+                "./..."
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "${workspaceFolderBasename}",
+                "${workspaceFolderBasename}-linux",
+                "${workspaceFolderBasename}.exe",
+                "coverage.out",
+                "coverage.html",
+                "__debug_bin"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "pre-commit",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "fmt",
+                "mod-tidy",
+                "vet",
+                "test"
+            ],
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "full-check",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "fmt",
+                "mod-tidy",
+                "vet",
+                "test-race",
+                "build"
+            ]
+        },
+        {
+            "label": "go: build debug binary",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "build",
+                "-gcflags=all=-N -l",
+                "-o",
+                "${workspaceFolder}/__debug_bin",
+                "${workspaceFolder}"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ],
+            "presentation": {
+                "reveal": "silent"
+            }
+        }
+    ]
+}

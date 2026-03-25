@@ -1,0 +1,100 @@
+{
+    // --- UI & Appearance ---
+    "editor.fontLigatures": true,
+    "editor.cursorBlinking": "expand",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.minimap.enabled": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "window.autoDetectColorScheme": false, // Авто-смена темы (день/ночь)
+    // --- GO Configuration (M4 Optimized) ---
+    "go.toolsManagement.autoUpdate": true,
+    "go.useLanguageServer": true,
+    "go.formatTool": "goimports",
+    // Линтер
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "go.lintOnSave": "package",
+    // Тесты (важно для твоего интереса к Runtime/Race)
+    "go.testFlags": [
+        "-race", // Всегда ищем гонки
+        "-count=1", // Отключаем кэш тестов (чтобы не пропустить флаки)
+        "-v",
+        "-timeout=30s"
+    ],
+    "go.testExplorer.enabled": true,
+    // --- Inlay Hints (Подсказки типов прямо в коде) ---
+    "editor.inlayHints.enabled": "on",
+    "go.inlayHints.assignVariableTypes": true, // Показывает тип := переменной
+    "go.inlayHints.compositeLiteralFields": true, // Подписывает поля в структурах {Field: ...}
+    "go.inlayHints.compositeLiteralTypes": true,
+    "go.inlayHints.functionTypeParameters": true,
+    "go.inlayHints.parameterNames": true, // Показывает имена аргументов в вызовах функций
+    "go.inlayHints.constantValues": true,
+    "go.inlayHints.rangeVariableTypes": true,
+    // --- gopls (Language Server) ---
+    "gopls": {
+        "usePlaceholders": true, // Добавляет заглушки при автокомплите
+        "ui.semanticTokens": true,
+        "staticcheck": true, // Встроенный статический анализ
+        "analyses": {
+            "unusedparams": true,
+            "unusedwrite": true,
+            "nilness": true, // Анализ nil-pointer panic
+            "shadow": true // Подсветка теневых переменных
+        },
+        // "codelenses": {
+        //   "gc_details": false // Включи true, если хочешь видеть решение escape-analysis (оптимизация)
+        // }
+    },
+    // --- Editor behavior for Go ---
+    "[go]": {
+        "editor.insertSpaces": false, // Go любит табы
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always",
+            "source.fixAll": "always"
+        }
+    },
+    // --- Debugging (Delve) ---
+    "go.delveConfig": {
+        "apiVersion": 2,
+        "showGlobalVariables": false,
+        "debugAdapter": "dlv-dap", // Новый адаптер, быстрее
+        "substitutePath": [
+            // Если будешь дебажить в докере, тут нужны маппинги
+            // { "from": "${workspaceFolder}", "to": "/app" }
+        ]
+    },
+    "debug.inlineValues": "on", // Значения переменных прямо в строке кода (как в GoLand)
+    // --- Other Tools (Protobuf, Docker, Yaml) ---
+    // Исправленный путь для Protoc на M4
+    "protobuf.protoc.path": "/opt/homebrew/bin/protoc",
+    "protoc": {
+        "options": [
+            "--proto_path=proto"
+        ]
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[dockercompose]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    // --- Git & Copilot ---
+    "git.autofetch": true,
+    "git.ignoreRebaseWarning": true,
+    "github.copilot.nextEditSuggestions.enabled": true, // Новая фича Copilot
+    // --- Cleanup ---
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/vendor": true
+    },
+    "search.exclude": {
+        "**/vendor": true
+    },
+    "workbench.editor.empty.hint": "hidden"
+}

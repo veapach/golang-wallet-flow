@@ -1,0 +1,17 @@
+run:
+  timeout: 5m
+
+linters-settings:
+  revive:
+    rules:
+      - name: exported
+        disabled: true
+      - name: package-comments
+        disabled: true
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1000" # package comment
+      - "-ST1020" # exported function comment
+      - "-ST1021" # exported type comment
+      - "-ST1022" # exported var/const comment
