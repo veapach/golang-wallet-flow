@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS transactions_history;
+DROP TABLE IF EXISTS wallets;
+DROP TABLE IF EXISTS currencies;
+DROP TABLE IF EXISTS user_tokens;
+DROP TABLE IF EXISTS users;
