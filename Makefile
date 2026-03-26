@@ -25,10 +25,10 @@ proto:
 	done
 
 env-up:
-	docker compose up -d wallet-flow-postgres
+	@docker compose up -d wallet-flow-postgres
 
 env-down:
-	docker compose down wallet-flow-postgres
+	@docker compose down wallet-flow-postgres
 
 env-cleanup:
 	@read -p "Очистить все данные окружения? (y/N): " ans; \
@@ -39,3 +39,30 @@ env-cleanup:
 	else \
 		echo "Очистка окружения отменена"; \
 	fi
+
+migrate-create:
+	@if [ -z "$(seq)" ]; then \
+		echo "Отсутсвует необходимый параметр seq. Пример: make migrate-create seq=1"; \
+		exit 1; \
+	fi;\
+	docker compose run --rm wallet-flow-migrate \
+		create \
+		-ext sql \
+		-dir /migrations \
+		-seq "$(seq)"
+
+migrate-up:
+	@make migrate-action action=up
+
+migrate-down:
+	@make migrate-action action=down
+
+migrate-action:
+	@if [ -z "$(action)" ]; then \
+		echo "Отсутсвует необходимый параметр action. Пример: make migrate-action action=up"; \
+		exit 1; \
+	fi; \
+	docker compose run --rm wallet-flow-migrate \
+		-path /migrations \
+		-database postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@wallet-flow-postgres:5432/$(POSTGRES_DB)?sslmode=disable \
+		"$(action)"
