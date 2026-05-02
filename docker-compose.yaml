@@ -8,9 +8,16 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ${PROJECT_ROOT}/out/pgdata:/var/lib/postgresql
-    restart: always
+    restart: no
 
   wallet-flow-migrate:
     image: migrate/migrate:v4.19.1
     volumes:
       - ${PROJECT_ROOT}/migrations:/migrations
+
+  port-forwarder:
+    image: alpine/socat:1.8.0.3
+    container_name: wallet-flow-postgres-port-forwarder
+    command: tcp-listen:5432,fork,reuseaddr tcp-connect:wallet-flow-postgres:5432
+    ports:
+      - "127.0.0.1:5433:5432"
