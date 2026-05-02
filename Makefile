@@ -5,7 +5,7 @@ export PROJECT_ROOT=$(shell pwd)
 
 run:
 	clear
-	go run cmd/main.go
+	@go run cmd/app/main.go
 
 fmt:
 	go fmt ./...
